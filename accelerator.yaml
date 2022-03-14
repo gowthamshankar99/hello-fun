@@ -1,115 +1,13 @@
 accelerator:
-  displayName: onemagnify-web-starter-app
-  description: OneMagnify Web Starter App
+  displayName: one-magnify
+  description: ""
   iconUrl: https://cloud.githubusercontent.com/assets/838318/19727082/2aee6d6c-9b8e-11e6-81fe-e889a5ddfded.png
-  tags:
-  - java
-  - spring
-  - cloud
-  - function
-  - serverless
-  - tanzu
-
-  # options for the UI
+  tags: []
   options:
-  - name: deploymentType
-    inputType: select
-    choices:
-    - value: workload
-      text: TAP workload
-    - value: k8s-simple
-      text: Kubernetes deployment and service
-    - value: none
-      text: Skip Kubernetes deployment
-    defaultValue: workload
-    required: true
-  - name: sourceRepositoryPrefix
-    inputType: text
-    label: The source repository prefix to use when pushing the source
-    description: The prefix for the repository where source can be stored during development
-    defaultValue: dev.local
-    dependsOn:
-      name: deploymentType
-      value: workload
-
+  - name: optionName
+    label: Nice Label
+    display: true
+    defaultValue: ""
 engine:
-  merge:
-    - include: [ "**" ]
-      exclude: [ "pom.xml", "README.md", "kubernetes/**", "catalog/*.yaml" ]
-    - include: [ "pom.xml" ]
-      chain:
-      - type: ReplaceText
-        substitutions:
-        - text: hello-fun
-          with: "#artifactId"
-    - include: [ "kubernetes/k8s/deployment.yaml", "kubernetes/k8s/service.yaml" ]
-      condition: "#deploymentType == 'k8s-simple'"
-      chain:
-      - type: ReplaceText
-        substitutions:
-        - text: hello-fun
-          with: "#artifactId"
-      - type: RewritePath
-        rewriteTo: "'kubernetes/' + #filename"
-    - include: [ "kubernetes/k8s/Tiltfile" ]
-      condition: "#deploymentType == 'k8s-simple'"
-      chain:
-      - type: ReplaceText
-        substitutions:
-        - text: hello-fun
-          with: "#artifactId"
-      - type: RewritePath
-        rewriteTo: "#filename"
-    - include: [ "kubernetes/tap/workload.yaml" ]
-      condition: "#deploymentType == 'workload'"
-      chain:
-      - type: ReplaceText
-        substitutions:
-        - text: ": hello-fun"
-          with: "': ' + #artifactId"
-      - type: RewritePath
-        rewriteTo: "'config/' + #filename"
-    - include: [ "kubernetes/tap/Tiltfile" ]
-      condition: "#deploymentType == 'workload'"
-      chain:
-      - type: ReplaceText
-        substitutions:
-        - text: hello-fun
-          with: "#artifactId"
-      - type: ReplaceText
-        substitutions:
-          - text: dev.local
-            with: "#sourceRepositoryPrefix"
-      - type: RewritePath
-        rewriteTo: "#filename"
-    - include: [ "catalog/*.yaml" ]
-      condition: "#deploymentType != 'none'"
-      chain:
-      - type: ReplaceText
-        substitutions:
-        - text: hello-fun
-          with: "#artifactId"
-    - name: README
-      type: Combo
-      onConflict: Append
-      sources:
-      - include: [ "README.md"]
-        chain:
-        - type: ReplaceText
-          substitutions:
-          - text: hello-fun template repo
-            with: "#artifactId"
-      - include: [ "kubernetes/k8s/DEPLOYING.md" ]
-        condition: "#deploymentType == 'k8s-simple'"
-        chain:
-        - type: RewritePath
-          rewriteTo: "'README.md'"
-      - include: [ "kubernetes/tap/DEPLOYING.md" ]
-        condition: "#deploymentType == 'workload'"
-        chain:
-        - type: ReplaceText
-          substitutions:
-          - text: hello-fun
-            with: "#artifactId"
-        - type: RewritePath
-          rewriteTo: "'README.md'"
+  include:
+  - '**'
