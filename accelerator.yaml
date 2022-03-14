@@ -1,6 +1,6 @@
 accelerator:
-  displayName: one-magnify-java-web-app
-  description: "One Magnify Starter Java Web App"
+  displayName: one-magnify-nodejs-web-app
+  description: "One Magnify Starter NodeJS Web App"
   iconUrl: https://pbs.twimg.com/profile_images/1003591114497122305/nO2LflDs_400x400.jpg
   tags:
   - java
